@@ -1,22 +1,51 @@
-// src/index.ts
 import express from 'express';
+import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import path from 'path';
+import sequelize from './config/database';
+import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
+import roleRouter from './routes/role.routes';
+import permissionRouter from './routes/permission.routes';
 import { notFoundHandler, errorHandler } from './middleware/error.middleware';
 
+dotenv.config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 
-// 挂载用户路由，统一前缀 /api/users
+app.use(express.static(path.join(__dirname, '../public')));
+
+app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/roles', roleRouter);
+app.use('/api/permissions', permissionRouter);
 
-// 404 处理
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 app.use(notFoundHandler);
-
-// 全局错误处理
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`服务运行在 http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('数据库连接成功');
+
+    await sequelize.sync();
+    console.log('数据库同步完成');
+
+    app.listen(PORT, () => {
+      console.log(`服务运行在 http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('服务启动失败:', error);
+    process.exit(1);
+  }
+};
+
+startServer();

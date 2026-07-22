@@ -1,22 +1,22 @@
-// src/routes/user.routes.ts
 import { Router } from 'express';
 import {
-  getAllUsers,
+  getUsers,
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
 } from '../controllers/user.controller';
-import { validate } from '../middleware/validate.middleware';
-import { createUserSchema, updateUserSchema } from '../types/user';
+import authMiddleware from '../middleware/auth.middleware';
+import { requirePermission } from '../middleware/permission.middleware';
 
 const router = Router();
 
-// 路由定义
-router.get('/', getAllUsers);       // GET /api/users 获取所有
-router.get('/:id', getUserById);    // GET /api/users/1 获取单个
-router.post('/', validate(createUserSchema), createUser);      // POST /api/users 创建
-router.put('/:id', validate(updateUserSchema), updateUser);    // PUT /api/users/1 更新
-router.delete('/:id', deleteUser);  // DELETE /api/users/1 删除
+router.use(authMiddleware);
+
+router.get('/', requirePermission('user:list'), getUsers);
+router.get('/:id', requirePermission('user:read'), getUserById);
+router.post('/', requirePermission('user:create'), createUser);
+router.put('/:id', requirePermission('user:update'), updateUser);
+router.delete('/:id', requirePermission('user:delete'), deleteUser);
 
 export default router;
