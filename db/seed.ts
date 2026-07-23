@@ -32,6 +32,12 @@ async function main() {
     { id: 14, name: '编辑权限', code: 'permission:update', type: 'button', parentId: 4, path: '', icon: '', sort: 2 },
     { id: 15, name: '删除权限', code: 'permission:delete', type: 'button', parentId: 4, path: '', icon: '', sort: 3 },
     { id: 16, name: '查看权限', code: 'permission:read', type: 'button', parentId: 4, path: '', icon: '', sort: 4 },
+
+    { id: 17, name: '站点管理', code: 'site:list', type: 'menu', parentId: 1, path: '/system/sites', icon: 'global', sort: 4 },
+    { id: 18, name: '新增站点', code: 'site:create', type: 'button', parentId: 17, path: '', icon: '', sort: 1 },
+    { id: 19, name: '编辑站点', code: 'site:update', type: 'button', parentId: 17, path: '', icon: '', sort: 2 },
+    { id: 20, name: '删除站点', code: 'site:delete', type: 'button', parentId: 17, path: '', icon: '', sort: 3 },
+    { id: 21, name: '查看站点', code: 'site:read', type: 'button', parentId: 17, path: '', icon: '', sort: 4 },
   ];
 
   await prisma.permission.createMany({ data: permissions });
@@ -55,6 +61,7 @@ async function main() {
     'system', 'user:list', 'user:read', 'user:create', 'user:update',
     'role:list', 'role:read',
     'permission:list', 'permission:read',
+    'site:list', 'site:read', 'site:create', 'site:update',
   ];
   const adminPerms = permissions.filter(p => adminPermCodes.includes(p.code));
 

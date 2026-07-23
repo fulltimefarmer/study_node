@@ -7,6 +7,7 @@ const iconMap: Record<string, string> = {
   safety: '🔒',
   home: '🏠',
   dashboard: '📊',
+  global: '🌐',
 };
 
 export function getIcon(name: string): string {

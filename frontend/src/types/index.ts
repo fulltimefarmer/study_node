@@ -35,6 +35,16 @@ export interface Permission {
   children?: Permission[];
 }
 
+export interface Site {
+  id: number;
+  name: string;
+  domain: string;
+  description: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface ApiResponse<T = any> {
   message?: string;
   data?: T;

@@ -75,6 +75,7 @@ function getBreadcrumb() {
     users: '用户管理',
     roles: '角色管理',
     permissions: '权限管理',
+    sites: '站点管理',
   };
   return parts.map(p => names[p] || p).join(' / ');
 }

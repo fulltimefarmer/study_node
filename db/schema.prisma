@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../backend/node_modules/.prisma/client"
 }
 
 datasource db {
@@ -71,4 +72,14 @@ model RolePermission {
 
   @@id([roleId, permissionId])
   @@map("role_permissions")
+}
+
+model Site {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  domain      String   @db.VarChar(255)
+  description String   @default("") @db.VarChar(500)
+  status      String   @default("active") @db.VarChar(20)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -7,6 +7,7 @@ import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import roleRouter from './routes/role.routes';
 import permissionRouter from './routes/permission.routes';
+import siteRouter from './routes/site.routes';
 import { notFoundHandler, errorHandler } from './middleware/error.middleware';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/roles', roleRouter);
 app.use('/api/permissions', permissionRouter);
+app.use('/api/sites', siteRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
